@@ -1,3 +1,5 @@
+package algoritm;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
@@ -16,7 +18,7 @@ public class oneNumber {
             return x * Factorial(x - 1);
         }
     }
-    public static Double myFull(double[] a, double[] b, int l, int n)
+    public static String myFull(double[] a, double[] b, int l, int n)
     {
 
         String myAnswer = "";
@@ -60,6 +62,7 @@ public class oneNumber {
 
 
         }
+        double maxx=0;
         double[] sum = new double[C];
         for (int i = 0; i < lamba.length; i++)
         {
@@ -75,6 +78,9 @@ public class oneNumber {
                 myAnswer += (lamba[i][j] + " ");
             }
             sum[i] = suma / sumb;
+            if(sum[i]> maxx){
+                maxx = sum[i];
+            }
             myAnswer+=("I[" + (i + 1) + "] =" + sum[i]);
             myAnswer += "\n";
         }
@@ -84,7 +90,7 @@ public class oneNumber {
         //   myAnswer += ("I[max]=" ++"\n");
         //  String maxx =
 
-        return (Double) Collections.max(summ);
+        return  String.format("%.0f",maxx*10);
     }
 
 

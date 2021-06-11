@@ -51,9 +51,9 @@ public class Dijkstra {
             }
         }
         for (int i = 0; i < vertex.size(); i++) {
-            if (vertex.get(i).weight < matrix[vertex.get(i).first - 1][vertex.get(i).second - 1]) {
-                matrix[vertex.get(i).first - 1][vertex.get(i).second - 1] = vertex.get(i).weight;
-                matrix[vertex.get(i).second - 1][vertex.get(i).first - 1] = vertex.get(i).weight;
+            if (vertex.get(i).weight < matrix[(int) (vertex.get(i).first - 1)][(int) (vertex.get(i).second - 1)]) {
+                matrix[(int) (vertex.get(i).first - 1)][(int) (vertex.get(i).second - 1)] = vertex.get(i).weight;
+                matrix[(int) (vertex.get(i).second - 1)][(int) (vertex.get(i).first - 1)] = vertex.get(i).weight;
             }
         }
         for (int i = 0; i < numV; i++)
@@ -174,8 +174,8 @@ public class Dijkstra {
      * @param i номер вершины
      * @return расстояние до i-ой вершины
      */
-    public double getDist(int i) {
-        return dist[i - 1];
+    public double getDist(double i) {
+        return dist[(int) (i - 1)];
     }
 
     /**

@@ -1,7 +1,8 @@
 package graphics;
 
 
-import algoritm.Dijkstra;
+
+import algoritm.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,11 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.Vector;
 
 /**
  * Класс Controller наследованный от Initializable
@@ -28,7 +29,7 @@ import java.util.*;
 
 public class Controller implements Initializable {
     @FXML                   //все переменные с пометками @FXML являются элементами GUI
-            Label outNameLabel;
+    Label outNameLabel;
     @FXML
     TextField fileField;
     @FXML
@@ -61,6 +62,7 @@ public class Controller implements Initializable {
     int size = 0;               //размер файла
     GraphStruct temp;           //вспомогательная переменная
     Dijkstra algoritm;          //переменная в которой будет обрабатываться алгоритм
+    oneNumber numbers;
     public static final double INF = Integer.MAX_VALUE / 10;
     double x1, y1, x2, y2, l1, l2, m1, m2;  //переменные для координат
     private Vector<GraphStruct> vertex;     //массив рёбер
@@ -322,7 +324,7 @@ public class Controller implements Initializable {
         vertex = new Vector<GraphStruct>();
         int j;
         for (j = 0; j < inpInt.length; j++) if (inpInt[j] == 0) break;
-        readyArr = new int[j];
+        readyArr = new int[j+4];
         for (int i = 0; i < j; i++) readyArr[i] = inpInt[i];
         numV = readyArr[0];
         for (int i = 1; i < readyArr.length; i += 3) {
@@ -381,6 +383,7 @@ public class Controller implements Initializable {
     @FXML
     public void fileOk() {
         int i = 0;
+        numbers = new oneNumber();
         String buff, buff2 = new String();
         DataInputStream input = null;
         try (DataInputStream streambuff = new DataInputStream(new FileInputStream(fileField.getText()))) {
@@ -391,20 +394,84 @@ public class Controller implements Initializable {
             return;
         }
         inpInt = new int[size];
-        try {
+     /*   try {
             input = new DataInputStream(new FileInputStream(fileField.getText()));
 
             while ((buff = input.readLine()) != null) {
                 StringTokenizer stoken = new StringTokenizer(buff);
                 while (stoken.hasMoreTokens()) {
                     int ibuff = Integer.parseInt(stoken.nextToken());
+                    System.out.print(ibuff+" ");
                     inpInt[i] = ibuff;
                     buff2 += Integer.toString(ibuff) + " ";
                     if (i % 3 == 0) buff2 += "\n";
                     i++;
                 }
             }
-        } catch (IOException ex) {
+        }*/
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileField.getText()))) {
+            int m=0;
+            String line;
+            while ((line = br.readLine()) != null) {
+                if(i!=0){
+                    //System.out.println(line);
+                    // int ibuff=  Integer.parseInt(line.replaceAll("\\s+",""));
+                    String[] data = line.split("\\D+");
+
+                    int k =0;
+                    double[] a = new double[(data.length-3)/2];
+                    for (int j = 2; j < (data.length-1)/2+1; j++) {
+                        a[k++] = Double.parseDouble(data[j]);
+                    }
+                    double[] b = new double[(data.length-3)/2];
+                    k =0;
+                    for (int j =(data.length-1)/2+1; j < data.length-1; j++) {
+                        b[k++] = Double.parseDouble(data[j]);
+                    }
+                       /* for (int j = 0 ;  j < a.length;j++) {
+                            System.out.println(a[j]+" ");
+                        }
+                        System.out.println();
+                        for (int j = 0 ;  j < b.length;j++) {
+                            System.out.println(b[j]+" ");
+                        }*/
+                    int l = Integer.parseInt(data[data.length-1]);
+                      /*  System.out.println();
+                        System.out.println(l);*/
+                    //System.out.println(line);
+                       /* buff2 += Integer.toString(ibuff) + " ";
+                        if (i % 3 == 0) buff2 += "\n";*/
+
+                    for( k=0; k< 3 ;k++) {
+                        int ibuff = 0;
+                        if(k != 2){
+                            ibuff = Integer.parseInt(data[k]);
+                        } else{
+
+                            ibuff = Integer.parseInt(numbers.myFull(a,b,l,b.length));
+                        }
+
+                        inpInt[m++] =ibuff ;
+                        buff2 += Double.toString(ibuff) + " ";
+                        if (m % 3 == 0) buff2 += "\n";
+                        System.out.print(m+" ");
+                    }
+                    System.out.println();
+                    i++;
+
+                }else{
+                    int ibuff =Integer.parseInt(line.replaceAll("\\s+",""));
+
+                    inpInt[m] = ibuff;
+                    buff2 += Integer.toString(ibuff) + "\n";
+                    i++;
+                }
+            }
+
+
+
+        }catch (IOException ex) {
 
         }
 
@@ -424,7 +491,7 @@ public class Controller implements Initializable {
         startButton.setDisable(true);
         finalButton.setDisable(true);
         fileField.setText("graph.txt");
-        nextStepButton.setDisable(true);
+        //nextStepButton.setDisable(true);
         clearButton.setDisable(true);
     }
 }

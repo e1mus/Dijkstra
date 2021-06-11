@@ -61,8 +61,8 @@
                                         <Image url="@../14532026843321.png"/>
                                     </image>
                                 </ImageView>
-                                <Button fx:id="nextStepButton" layoutX="119.0" layoutY="459.0" mnemonicParsing="false"
-                                        onAction="#nextStepButtonClicked" text="Keyingi qadam"/>
+                                <!--Button fx:id="nextStepButton" layoutX="119.0" layoutY="459.0" mnemonicParsing="false"
+                                        onAction="#nextStepButtonClicked" text="Keyingi qadam"/-->
                                 <Pane fx:id="Pane1" prefHeight="400.0" prefWidth="690.0">
                                     <children>
                                         <Circle fx:id="CircleGraph" centerX="345.0" centerY="220.0" fill="DODGERBLUE"
