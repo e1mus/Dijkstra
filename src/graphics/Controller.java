@@ -7,12 +7,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -408,18 +410,18 @@ public class Controller implements Initializable {
             while ((line = br.readLine()) != null) {
                 if(i!=0){
 
-                    String[] data = line.split("\\D+");
-
-                    int k =0;
-                    double[] a = new double[(data.length-3)/2];
-                    for (int j = 2; j < (data.length-1)/2+1; j++) {
-                        a[k++] = Double.parseDouble(data[j]);
-                    }
-                    double[] b = new double[(data.length-3)/2];
-                    k =0;
-                    for (int j =(data.length-1)/2+1; j < data.length-1; j++) {
-                        b[k++] = Double.parseDouble(data[j]);
-                    }
+                        String[] data = line.split("\\D+");
+                        if(data.length != 3){
+                        int k = 0;
+                        double[] a = new double[(data.length - 3) / 2];
+                        for (int j = 2; j < (data.length - 1) / 2 + 1; j++) {
+                            a[k++] = Double.parseDouble(data[j]);
+                        }
+                        double[] b = new double[(data.length - 3) / 2];
+                        k = 0;
+                        for (int j = (data.length - 1) / 2 + 1; j < data.length - 1; j++) {
+                            b[k++] = Double.parseDouble(data[j]);
+                        }
                        /* for (int j = 0 ;  j < a.length;j++) {
                             System.out.println(a[j]+" ");
                         }
@@ -427,30 +429,45 @@ public class Controller implements Initializable {
                         for (int j = 0 ;  j < b.length;j++) {
                             System.out.println(b[j]+" ");
                         }*/
-                    int l = Integer.parseInt(data[data.length-1]);
-                      /*  System.out.println();
+                        int l = Integer.parseInt(data[data.length - 1]);
+                        if(a.length == b.length && b.length>=l) {
+
+                        /*  System.out.println();
                         System.out.println(l);*/
-                    //System.out.println(line);
+                        //System.out.println(line);
                        /* buff2 += Integer.toString(ibuff) + " ";
                         if (i % 3 == 0) buff2 += "\n";*/
 
-                    for( k=0; k< 3 ;k++) {
-                        int ibuff = 0;
-                        if(k != 2){
-                            ibuff = Integer.parseInt(data[k]);
-                        } else{
+                        for (k = 0; k < 3; k++) {
+                            int ibuff = 0;
+                            if (k != 2) {
+                                ibuff = Integer.parseInt(data[k]);
+                            } else {
 
-                            ibuff = Integer.parseInt(numbers.myFull(a,b,l,b.length));
+                                ibuff = Integer.parseInt(numbers.myFull(a, b, l, b.length));
+                            }
+
+                            inpInt[m++] = ibuff;
+                            buff2 += Integer.toString(ibuff) + " ";
+
                         }
+                        buff2 += "\n";
 
-                        inpInt[m++] =ibuff ;
-                        buff2 += Integer.toString(ibuff) + " ";
+                        i++;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Parametrlar noto'g'ri kiritilgan");
+                        return;
+                    }}
+                        else{
+                            for (int k = 0; k < 3; k++) {
+                                int ibuff = 0;
+                                ibuff = Integer.parseInt(data[k]);
+                                inpInt[m++] = ibuff;
+                                buff2 += Integer.toString(ibuff) + " ";
 
-                    }
-                    buff2+="\n";
-
-                    i++;
-
+                            }
+                            buff2 += "\n";
+                        }
                 }else{
                     int ibuff =Integer.parseInt(line.replaceAll("\\s+",""));
 
