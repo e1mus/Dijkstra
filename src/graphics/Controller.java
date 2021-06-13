@@ -96,7 +96,7 @@ public class Controller implements Initializable {
         algoritm.dijkstra(vertex);
         paint_GRAPH_RED();
         clearButton.setDisable(false);
-        nextStepButton.setDisable(true);
+
         finalButton.setDisable(true);
         printToArea();
     }
@@ -145,7 +145,7 @@ public class Controller implements Initializable {
      *
      * @param event событие нажатия кнопки
      */
-    @FXML
+   /* @FXML
     public void nextStepButtonClicked(ActionEvent event) {
         algoritm.oneStep(vertex);
         if (algoritm.isEnd()) {
@@ -156,7 +156,7 @@ public class Controller implements Initializable {
             printToArea();
         } else paint_Vertex();
     }
-
+*/
     /**
      * Метод реагирующий на нажатие кнопки "Загрузить"
      * Вызывает метод fileOk() который выполняет считывание с файла
@@ -181,7 +181,7 @@ public class Controller implements Initializable {
         startButton.setDisable(true);
         init(inpInt);
         paint_GRAPH();
-        nextStepButton.setDisable(false);
+        //nextStepButton.setDisable(false);
         finalButton.setDisable(false);
         SingleSelectionModel<Tab> selectionModel = tabPane1.getSelectionModel();
 
@@ -324,14 +324,19 @@ public class Controller implements Initializable {
         vertex = new Vector<GraphStruct>();
         int j;
         for (j = 0; j < inpInt.length; j++) if (inpInt[j] == 0) break;
-        readyArr = new int[j+4];
+        readyArr = new int[j];
+
         for (int i = 0; i < j; i++) readyArr[i] = inpInt[i];
+
         numV = readyArr[0];
+
         for (int i = 1; i < readyArr.length; i += 3) {
             temp = new GraphStruct(readyArr[i], readyArr[i + 1], readyArr[i + 2]);
             vertex.add(temp);
         }
+
         for (int i = 0; i < (vertex.size() - 1); i++) {
+
             if ((vertex.get(i + 1).second == vertex.get(i).first) && (vertex.get(i).second == vertex.get(i + 1).first))
                 if (vertex.get(i).weight > vertex.get(i + 1).weight) {
                     vertex.remove(i);
@@ -342,6 +347,7 @@ public class Controller implements Initializable {
                 }
         }
         readyArr = null;
+
         algoritm = new Dijkstra(numV, vertex);
     }
 
@@ -394,29 +400,14 @@ public class Controller implements Initializable {
             return;
         }
         inpInt = new int[size];
-     /*   try {
-            input = new DataInputStream(new FileInputStream(fileField.getText()));
 
-            while ((buff = input.readLine()) != null) {
-                StringTokenizer stoken = new StringTokenizer(buff);
-                while (stoken.hasMoreTokens()) {
-                    int ibuff = Integer.parseInt(stoken.nextToken());
-                    System.out.print(ibuff+" ");
-                    inpInt[i] = ibuff;
-                    buff2 += Integer.toString(ibuff) + " ";
-                    if (i % 3 == 0) buff2 += "\n";
-                    i++;
-                }
-            }
-        }*/
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileField.getText()))) {
             int m=0;
             String line;
             while ((line = br.readLine()) != null) {
                 if(i!=0){
-                    //System.out.println(line);
-                    // int ibuff=  Integer.parseInt(line.replaceAll("\\s+",""));
+
                     String[] data = line.split("\\D+");
 
                     int k =0;
@@ -453,17 +444,18 @@ public class Controller implements Initializable {
                         }
 
                         inpInt[m++] =ibuff ;
-                        buff2 += Double.toString(ibuff) + " ";
-                        if (m % 3 == 0) buff2 += "\n";
-                        System.out.print(m+" ");
+                        buff2 += Integer.toString(ibuff) + " ";
+
                     }
-                    System.out.println();
+                    buff2+="\n";
+
                     i++;
 
                 }else{
                     int ibuff =Integer.parseInt(line.replaceAll("\\s+",""));
 
-                    inpInt[m] = ibuff;
+                    inpInt[m++] = ibuff;
+
                     buff2 += Integer.toString(ibuff) + "\n";
                     i++;
                 }
@@ -478,6 +470,7 @@ public class Controller implements Initializable {
         outputTextArea.setText(buff2);
         outputTextArea.setVisible(true);
         startButton.setDisable(false);
+
     }
 
     /**

@@ -50,10 +50,12 @@ public class Dijkstra {
                 else matrix[i][j] = INF;
             }
         }
+
         for (int i = 0; i < vertex.size(); i++) {
-            if (vertex.get(i).weight < matrix[(int) (vertex.get(i).first - 1)][(int) (vertex.get(i).second - 1)]) {
-                matrix[(int) (vertex.get(i).first - 1)][(int) (vertex.get(i).second - 1)] = vertex.get(i).weight;
-                matrix[(int) (vertex.get(i).second - 1)][(int) (vertex.get(i).first - 1)] = vertex.get(i).weight;
+            if (vertex.get(i).weight < matrix[vertex.get(i).first - 1][vertex.get(i).second - 1]) {
+                matrix[vertex.get(i).first - 1][vertex.get(i).second - 1] = vertex.get(i).weight;
+                matrix[vertex.get(i).second - 1][vertex.get(i).first - 1] = vertex.get(i).weight;
+
             }
         }
         for (int i = 0; i < numV; i++)
