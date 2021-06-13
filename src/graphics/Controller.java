@@ -38,8 +38,8 @@ public class Controller implements Initializable {
     Button startButton;
     @FXML
     Button loadButton;
-    @FXML
-    Button nextStepButton;
+   /* @FXML
+    Button nextStepButton;*/
     @FXML
     Pane Pane1;
     @FXML
